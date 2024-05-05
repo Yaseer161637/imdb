@@ -11,10 +11,8 @@ user_schema = {
     'username': {'type': 'string', 'required': True, 'unique': True},
     'password': {'type': 'string', 'required': True},
     'email': {'type': 'string', 'required': True, 'unique': True},
-    'fullName': {'type': 'string'},
-    'age': {'type': 'int'},
-    'createdAt': {'type': 'date', 'default': datetime.utcnow},
-    'updatedAt': {'type': 'date', 'default': datetime.utcnow}
+    'created_at': {'type': 'date', 'default': datetime.utcnow},
+    'updated_at': {'type': 'date', 'default': datetime.utcnow}
 }
 
 # Create user collection
@@ -45,3 +43,15 @@ movie_collection = db['movies']
 
 # Create indexes for unique fields
 movie_collection.create_index([('show_id', ASCENDING)])
+
+file_progress = {
+    'username': {'type': 'string'},
+    'added_count': {'type': 'int'},
+    'status': {'type': 'string'},
+    'file_path': {'type': 'string'},
+    'created_at': {'type': 'datetime'}
+}
+
+file_progress_collection = db['file']
+
+file_progress_collection.create_index([('created_at', ASCENDING)])

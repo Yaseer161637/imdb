@@ -1,0 +1,53 @@
+{
+  "user": {
+    "type": "object",
+    "properties": {
+      "username": {"type": "string"},
+      "password": {"type": "string"},
+      "email": {"type": "string"},
+      "created_at": {"type": "string", "format": "date-time"},
+      "updated_at": {"type": "string", "format": "date-time"}
+    },
+    "required": ["username", "password", "email"],
+    "additionalProperties": false,
+    "indexes": [
+      {"fields": [{"field": "username", "order": "ascending"}], "unique": true},
+      {"fields": [{"field": "email", "order": "ascending"}], "unique": true}
+    ]
+  },
+  "movies": {
+    "type": "object",
+    "properties": {
+      "show_id": {"type": "string"},
+      "type": {"type": "string"},
+      "title": {"type": "string"},
+      "director": {"type": "string"},
+      "cast": {"type": "array", "items": {"type": "string"}},
+      "country": {"type": "string"},
+      "date_added": {"type": "string", "format": "date-time"},
+      "release_year": {"type": "integer"},
+      "rating": {"type": "string"},
+      "duration": {"type": "string"},
+      "listed_in": {"type": "array", "items": {"type": "string"}},
+      "description": {"type": "string"}
+    },
+    "additionalProperties": false,
+    "indexes": [
+      {"fields": [{"field": "show_id", "order": "ascending"}]}
+    ]
+  },
+  "file_progress": {
+    "type": "object",
+    "properties": {
+      "username": {"type": "string"},
+      "added_count": {"type": "integer"},
+      "status": {"type": "string"},
+      "file_path": {"type": "string"},
+      "created_at": {"type": "string", "format": "date-time"}
+    },
+    "additionalProperties": false,
+    "indexes": [
+      {"fields": [{"field": "created_at", "order": "ascending"}]}
+    ]
+  }
+}
