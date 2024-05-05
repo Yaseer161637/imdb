@@ -44,6 +44,12 @@ To start the Flask development server, run the following command:
 python3 app.py --debug
 ```
 
+### Schema 
+check schema.py to know the schema of this project
+
+#### CSV Upload 
+use movie.csv file as a sample file
+
 
 ### Optional
 
