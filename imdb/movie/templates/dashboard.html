@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>Dashboard</h1>
+
+<form action="/csv_upload" method="post" enctype="multipart/form-data">
+    <div class="container">
+        <div class="row">
+            <div class="mb-3 col-auto">
+                <input type="file" id="csv_file" name="csv_file" accept=".csv" class="form-control form-control-sm">
+            </div>
+            <div class="col-auto">
+                <button type="submit" class="btn btn-primary mb-3">Upload</button>
+            </div>
+            <div class="col-auto">
+                <a href="{{url_for('movie.file_progress')}}">Check Uploaded File Progress</a>
+            </div>
+
+        </div>
+        <div class="row justify-content-end">
+            <div class="col-auto md-5">
+                {% if data.has_prev %}
+                <a href="{{ url_for('movie.dashboard') }}?page={{ data.curr_page-1 }}{% if data.order %}&order={{ data.order }}{% endif %}{% if data.sort %}&sort={{ data.sort }}{% endif %}">Prev</a>
+                {% endif %}
+                {% if data.has_next %}
+                <a href="{{ url_for('movie.dashboard') }}?page={{ data.curr_page+1 }}{% if data.order %}&order={{ data.order }}{% endif %}{% if data.sort %}&sort={{ data.sort }}{% endif %}">Next</a>
+                {% endif %}
+
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-auto">
+                Sort:
+            </div>
+            <div class="col-auto">
+                <select class="form-select" aria-label="Default select" onchange="updateUrl()" id="sortSelect">
+                    <option selected>select</option>
+                    <option value="date_added">date_added</option>
+                    <option value="release_year">release_year</option>
+                    <option value="duration">duration</option>
+                </select>
+            </div>
+            <div class="col-auto">
+                <a id="ascLink" href="{{ url_for('movie.dashboard') }}?order=asc">Asc</a>
+                <a id="descLink" href="{{ url_for('movie.dashboard') }}?order=desc">Desc</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-sm table-bordered">
+            <thead>
+            <tr>
+                {% for header in data.headers %}
+                <th scope="col">{{ header }}</th>
+                {% endfor %}
+            </tr>
+            </thead>
+            <tbody>
+            {% for movie in data.movies %}
+            <tr>
+                {% for field in movie %}
+                <td>{{ movie[field] }}</td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+</form>
+<script>
+    function updateUrl() {
+        var selectedField = document.getElementById("sortSelect").value;
+        var ascLink = document.getElementById("ascLink");
+        var descLink = document.getElementById("descLink");
+        ascLink.href = "{{ url_for('movie.dashboard') }}?sort=" + selectedField + "&order=asc";
+        descLink.href = "{{ url_for('movie.dashboard') }}?sort=" + selectedField + "&order=desc";
+    }
+</script>
+{% endblock %}
