@@ -22,6 +22,13 @@ LIMIT = 10
 
 
 def get_movies():
+    """
+        Retrieve movies from the database based on pagination and sorting parameters.
+
+        Returns:
+            tuple: A tuple containing a list of movies and a boolean indicating if there are more movies available.
+    """
+
     page = int(request.args.get("page", 1))
     sort = request.args.get('sort')
     order = request.args.get('order')
@@ -38,6 +45,13 @@ def get_movies():
 @movie_blueprint.route('/dashboard', methods=['GET', 'POST'])
 @login_required
 def dashboard():
+    """
+        Render the dashboard page with paginated and sorted movie data.
+
+        Returns:
+            str: Rendered dashboard page template.
+    """
+
     if request.method == 'POST':
         pass  # future implementation if require
 
@@ -63,6 +77,13 @@ def dashboard():
 @movie_blueprint.route('/csv_upload', methods=['POST'])
 @login_required
 def upload_csv():
+    """
+        Handle CSV file upload, parsing, and insertion into the database.
+
+        Returns:
+            str: Redirect to the dashboard or an error page.
+    """
+
     CHUNK_SIZE = 1000
     if 'csv_file' not in request.files:
         flash('Upload valid csv file')
@@ -95,6 +116,13 @@ def upload_csv():
 @movie_blueprint.route('/file_progress', methods=['POST', 'GET'])
 @login_required
 def file_progress():
+    """
+        Retrieve and render file upload progress for the current user.
+
+        Returns:
+            str: Rendered file progress page template.
+    """
+
     error = None
     fp = list(file_collection.find({'username': current_user.username}, {'_id': 0}))
     headers = list(fp[0].keys()) if fp else []

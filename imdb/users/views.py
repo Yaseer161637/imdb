@@ -19,11 +19,28 @@ users_blueprint = Blueprint(
 
 @users_blueprint.route('/', methods=['GET'])
 def home():
+    """
+       Render the home page.
+       Returns:
+           str: Rendered home page template.
+    """
+
     return render_template('home.html', error=None)
 
 
 @users_blueprint.route('/login', methods=['POST', 'GET'])
 def login():
+    """
+        Handle user login.
+
+        If user is already authenticated, redirect to dashboard.
+        If form is submitted with valid credentials, log in the user.
+        Otherwise, render the login page with appropriate error message.
+
+        Returns:
+            str: Rendered login page template or redirect to dashboard.
+    """
+
     if current_user.is_authenticated:
         return redirect(url_for('movie.dashboard'))
 
@@ -44,6 +61,13 @@ def login():
 @users_blueprint.route('/logout')
 @login_required
 def logout():
+    """
+        Handle user logout.
+        Log out the currently logged in user and redirect to login page.
+        Returns:
+            str: Redirect to login page.
+    """
+
     logout_user()
     flash('You were logged out.')
     return redirect(url_for('users.login'))
@@ -51,6 +75,14 @@ def logout():
 
 @users_blueprint.route('/register', methods=['POST', 'GET'])
 def register():
+    """
+        Handle user registration.
+        If form is submitted with valid data, register the user and redirect to login page.
+        Otherwise, render the registration page with the form.
+        Returns:
+            str: Rendered registration page template or redirect to login page.
+    """
+
     form = RegisterForm(request.form)
     if request.method == 'POST' and form.validate():
         user = User(
@@ -59,5 +91,6 @@ def register():
             password=form.password.data
         )
         user.save()
+        flash('Registered successfully.')
         return redirect(url_for('users.login'))
     return render_template('register.html', form=form)
