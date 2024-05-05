@@ -18,7 +18,7 @@ user_schema = {
 }
 
 # Create user collection
-user_collection = db['users']
+user_collection = db['user']
 
 # Create indexes for unique fields
 user_collection.create_index([('username', ASCENDING)], unique=True)
